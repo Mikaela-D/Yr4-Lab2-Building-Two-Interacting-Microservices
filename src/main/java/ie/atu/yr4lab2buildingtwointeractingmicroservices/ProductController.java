@@ -1,5 +1,6 @@
 package ie.atu.yr4lab2buildingtwointeractingmicroservices;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class ProductController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<String> createProduct(@RequestBody Product newProduct) {
+    public ResponseEntity<String> createProduct(@Valid @RequestBody Product newProduct) {
         productService.createProduct(newProduct);
         return new ResponseEntity<>("Product successfully created\n", HttpStatus.CREATED);
     }
 
     @PutMapping("edit/{id}")
-    public ResponseEntity<String> editProduct(@PathVariable long id, @RequestBody Product changedProduct) {
+    public ResponseEntity<String> editProduct(@Valid @PathVariable long id, @RequestBody Product changedProduct) {
         boolean status = productService.editProduct(id, changedProduct);
 
         if(status){
@@ -38,7 +39,7 @@ public class ProductController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<String> editProduct(@PathVariable long id) {
+    public ResponseEntity<String> editProduct(@Valid @PathVariable long id) {
         boolean status = productService.deleteProduct(id);
 
         if(status){

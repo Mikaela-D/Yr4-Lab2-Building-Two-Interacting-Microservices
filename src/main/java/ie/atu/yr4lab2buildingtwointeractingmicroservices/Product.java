@@ -1,9 +1,6 @@
 package ie.atu.yr4lab2buildingtwointeractingmicroservices;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,13 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Product {
 
-    @NotNull
+    @NotNull(message = "Cannot be empty")
     private long id;
 
-    @NotBlank
-    @Size(min = 2, max=20)
+    @NotBlank(message = "Cannot be blank")
+    @Size(min = 2, max=25, message = "The name must be between 2 to 25 characters")
     private String name;
 
-    @PositiveOrZero
+    @PositiveOrZero(message = "Must be a positive number or zero")
+    @Max(value=3000, message = "The maximum is 3000")
     private double price;
 }
