@@ -13,7 +13,17 @@ public class ProductService {
         return productList;
     }
 
+    public Product getProductById(long id) {
+        return productList.stream()
+                .filter(product -> product.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
     public void createProduct(Product product) {
+        if (productList.stream().anyMatch(existingProduct -> existingProduct.getId() == product.getId())) {
+            throw new IllegalArgumentException("Product with ID " + product.getId() + " already exists.");
+        }
         productList.add(product);
     }
 
@@ -25,16 +35,15 @@ public class ProductService {
                 return true;
             }
         }
-        return false;
+        throw new IllegalArgumentException("Product with ID " + id + " not found");
     }
 
     public boolean deleteProduct(long id) {
-        for (Product product : productList) {
-            if (product.getId() == id) {
-                productList.remove(product);
-                return true;
-            }
-        }
-        return false;
+        Product product = productList.stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Product with ID " + id + " not found"));
+        productList.remove(product);
+        return true;
     }
 }
