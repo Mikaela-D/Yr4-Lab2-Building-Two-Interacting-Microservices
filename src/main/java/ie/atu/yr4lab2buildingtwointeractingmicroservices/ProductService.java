@@ -22,7 +22,7 @@ public class ProductService {
 
     public void createProduct(Product product) {
         if (productList.stream().anyMatch(existingProduct -> existingProduct.getId() == product.getId())) {
-            throw new IllegalArgumentException("Product with ID " + product.getId() + " already exists.");
+            throw new IllegalArgumentException("Product with ID " + product.getId() + " already exists");
         }
         productList.add(product);
     }
